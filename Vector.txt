@@ -1,0 +1,171 @@
+#pragma once
+#include <iostream>
+using namespace std;
+template<typename T> class Vector 
+{
+    T* arr;
+    int maxSize;
+    int index;
+public:
+    Vector(int sz = 1)
+    {
+        if (sz < 0)
+        {
+            cout << "Size must be greater than 0" << endl;
+        }
+        maxSize = sz;
+        index = 0;
+        arr = new T[maxSize];
+    }
+    bool isempty()///O(1)
+    {
+        return index == 0;
+    }
+    bool isfull()///O(1)
+    {
+        return index == maxSize;
+    }
+    int size()///O(1)
+    {
+        return index;
+    }
+    void display()///O(n)
+    {
+        for (int i = 0;i < index;i++)
+        {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+    void insert(T element)
+    {
+        if (index == maxSize)///O(n)
+        {
+            T* tmp;
+            tmp = new T[maxSize * 2];
+            for (int i = 0;i < index;i++)
+            {
+                tmp[i] = arr[i];
+            }
+            delete[]arr;
+            maxSize *= 2;
+            arr = tmp;
+        }
+
+        arr[index] = element;
+        index++;
+
+    }
+    void updateValue(int pos, T element)
+    {
+        if (pos<0 || pos >index)
+        {
+            cout << "Out of range" << endl;
+        }
+        else
+        {
+            arr[pos] = element;
+        }
+    }
+    T returnvlaue(int pos)
+    {
+        if (pos<0 || pos>index)
+        {
+            return -1;
+        }
+        return arr[pos];
+    }
+    void insertpos(int pos, T element)///O(n)
+    {
+        if (isfull())
+        {
+            T* tmp;
+            tmp = new T[maxSize * 2];
+            for (int i = 0;i < index;i++)
+            {
+                tmp[i] = arr[i];
+            }
+            delete[]arr;
+            maxSize *= 2;
+            arr = tmp;
+        }
+        if (pos == index)
+        {
+            pushBack(element);
+        }
+        else if (pos < 0)
+        {
+            cout << "Error" << endl;
+        }
+        else
+        {
+            for (int i = pos + 1;i <= index;i++)
+            {
+                arr[i] = arr[i - 1];
+            }
+            arr[pos] = element;
+            index++;
+
+        }
+    }
+    void erase()///o(1)
+    {
+        index--;
+    }
+    void erasepos(int pos)///O(n)
+    {
+        if (pos<0 || pos>index)
+        {
+            cout << "this position isn't found" << endl;
+        }
+        else
+        {
+            for (int i = pos;i < index - 1;i++)
+            {
+                arr[i] = arr[i + 1];
+            }
+            index--;
+        }
+    }
+    int search(T element)
+    {
+        for (int i = 0;i < index;i++)
+        {
+            if (arr[i] == element)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    ~Vector()
+    {
+        delete[] arr;
+    }
+
+};
+int main()
+{
+    Vector<int>v;
+    cout << v.size() << endl;
+    v.insert(5);
+    v.display();
+    v.insert(33);
+    v.display();
+    v.insertpos(1, 4);
+    v.display();
+    v.updateValue(2, 3);
+    v.display();
+    cout << v.returnvlaue(0) << endl;
+    v.erasepos(0);
+    v.display();
+    v.erase();
+    v.display();
+    v.insert(3);
+    cout << v.search(3) << endl;
+    cout << v.isempty() << endl;
+    cout << v.isfull() << endl;
+
+}
+
+

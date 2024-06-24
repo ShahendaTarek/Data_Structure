@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+template<typename T> class Stack{
+
+    int top;
+    enum{mx=100};
+    T arr[];
+public:
+    Stack()
+    {
+        top=-1;
+        arr[mx];
+    }
+    void push(T element)
+    {
+        if(top==mx-1)
+        {
+            cout<<"Stack is full"<<endl;
+            return;
+        }
+        top++;
+        arr[top]=element;
+    }
+    void pop()
+    {
+        if(top<0)
+        {
+            cout<<"Stack is Empty"<<endl;
+            return;
+        }
+        top--;
+    }
+    T Top()
+    {
+        if(top>=0)
+        {
+            return arr[top];
+        }
+        else
+        {
+            return -1;
+        }
+
+    }
+    void display()
+    {
+        for(int i=top;i>=0;i--)
+        {
+            cout<<arr[i]<<" ";
+        }
+        cout<<endl;
+    }
+
+};
+int main()
+{
+    Stack<char>st;
+    st.push('a');
+    st.push('b');
+    st.push('c');
+    st.push('d');
+    st.pop();
+    cout<<st.Top()<<endl;
+    st.display();
+
+
+
+}

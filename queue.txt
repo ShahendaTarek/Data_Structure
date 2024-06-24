@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+using namespace std;
+template<typename T>class Queue
+{
+    int back;
+    int front;
+    int length;
+    int mx;
+    T *arr;
+public:
+    Queue(int size)
+    {
+        mx=size;
+        back=mx-1;
+        front=0;
+        length=0;
+        arr=new T[mx];
+    }
+    bool isEmpty()
+    {
+        return length==0;
+    }
+    bool isFull()
+    {
+        return length==mx;
+    }
+    void push(T element)
+    {
+        if(isFull())
+        {
+            cout<<"queue is full"<<endl;
+        }
+        else
+        {
+            back=(back+1)%mx;
+            length++;
+            arr[back]=element;
+          //  cout<<"back = "<<back<<" ";
+        }
+    }
+    void pop()
+    {
+        if(isEmpty())
+        {
+            cout<<"queue is empty "<<endl;
+        }
+        else
+        {
+            front++;
+            front=front%mx;
+            length--;
+
+        }
+    }
+    T Front()
+    {
+        assert(!isEmpty());
+        return arr[front];
+    }
+    T Back()
+    {
+        assert(!isEmpty());
+        return arr[back];
+    }
+    void display()
+    {
+        for(int i=front;i!=back;i=(i+1)%mx)///by5ly el i tm4y zy el back
+        {
+            cout<<arr[i]<<" ";
+        }
+        cout<<arr[back]<<endl;
+    }
+
+
+
+};
+
+
+
+int main()
+{
+    Queue<int>q(10);
+    q.push(1);///0
+    q.push(2);///1
+    q.push(3);///2
+    q.push(4);///3
+    q.push(5);///4
+    q.pop();///front=1
+    q.push(3);///length=mx;///0,arr[0]=3;
+    q.pop();///
+    q.pop();
+    q.push(6);
+    cout<<q.Front()<<endl;
+    cout<<q.Back()<<endl;
+    q.display();
+
+}

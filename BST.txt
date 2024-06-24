@@ -1,0 +1,250 @@
+#include<bits/stdc++.h>
+using namespace std;
+template<typename T> class BST{
+    struct node
+    {
+        T item;
+        node*left;
+        node*right;
+    };
+    node *root;
+    ////////////////////////private functions/////////////////
+    void preorder(node*cur)
+    {
+        if(cur != NULL)
+        {
+            cout<<cur->item<<" ";
+            preorder(cur->left);
+            preorder(cur->right);
+        }
+
+    }
+    void inorder(node*cur)
+    {
+        if(cur!=NULL)
+        {
+            inorder(cur->left);
+            cout<<cur->item<<" ";
+            inorder(cur->right);
+        }
+    }
+    void postorder(node*cur)
+    {
+        if(cur!=NULL)
+        {
+            postorder(cur->left);
+            postorder(cur->right);
+            cout<<cur->item<<" ";
+        }
+
+    }
+
+public:
+    BST()
+    {
+        root=NULL;
+    }
+    bool isEmpty()
+    {
+        return root==NULL;
+    }
+    void insert(T element)
+    {
+        node*newnode=new node();
+        newnode->item=element;
+        newnode->left=NULL;
+        newnode->right=NULL;
+        node*cur=root;
+        node*parent;
+
+        if(isEmpty())
+        {
+            root=newnode;
+            root->left=NULL;
+            root->right=NULL;
+        }
+        else
+        {
+            while (cur!=NULL)
+            {
+                parent=cur;
+                if(element<=cur->item)
+                {
+                    cur=cur->left;
+                }
+                else
+                {
+                    cur=cur->right;
+                }
+            }
+            if(element>parent->item)
+            {
+                parent->right=newnode;
+            }
+            else
+            {
+                parent->left=newnode;
+            }
+
+        }
+
+    }
+    bool search(int element)
+    {
+        node*cur=root;
+        while(cur!=NULL)
+        {
+            if(cur->item==element)
+            {
+                return true;
+            }
+            else if(cur->item>element)
+            {
+                cur=cur->left;
+            }
+            else
+            {
+                cur=cur->right;
+            }
+        }
+        return false;
+    }
+    void deletenode(node*&p)
+    {
+        node*cur;
+        node*parent;
+        if(p->left==NULL and p->right==NULL)///leaf
+        {
+           delete p;
+           p=NULL;
+        }
+        else if(p->left==NULL)///one child at right
+        {
+            node*tmp=p;
+            p=p->right;
+            delete tmp;
+
+        }
+        else if(p->right==NULL)///one child at left;
+        {
+            node*tmp=p;
+            p=p->left;
+            delete tmp;
+        }
+        else
+        {///have tow child and we need to find minimum node at right subtree
+            cur = p->right;
+            parent = NULL;
+            while (cur->left != NULL) {
+                parent = cur;
+                cur = cur->left;
+            }
+            p->item = cur->item;
+            if (parent == NULL)///the right node in a node i want to delete don't have left node
+            {
+                p->right = cur->left;
+            } else {/// successor her maximum hae one chile because its the minimum one and her chile will be the greater than so will be in a right
+                parent->left = cur->right;
+            }
+        }
+    }
+    void remove(T element)
+    {
+        if(isEmpty())
+        {
+            cout<<"tree is empty"<<endl;
+            return;
+        }
+        if(root->item==element)
+        {
+            deletenode(root);
+        }
+        else
+        {
+            node*cur;
+            node*parent;
+            if(root->item>=element)
+            {
+                cur=root->left;
+            }
+            else
+            {
+                cur=root->right;
+            }
+            while(cur!=NULL)
+            {
+                if(cur->item==element)
+                {
+                    break;
+                }
+                else
+                {
+                    parent=cur;
+                    if(cur->item>element)
+                    {
+                        cur=cur->left;
+                    }
+                    else
+                    {
+                        cur=cur->right;
+                    }
+                }
+            }
+            if(cur==NULL)
+            {
+                cout<<"element is not found"<<endl;
+            }
+            else
+            {
+                if(parent->item>element)
+                {
+                    deletenode(parent->left);
+                }
+                else
+                {
+                    deletenode(parent->right);
+                }
+            }
+
+        }
+
+    }
+    void preorder()
+    {
+        preorder(root);
+    }
+    void inorder()
+    {
+        inorder(root);
+    }
+    void postorder()
+    {
+        postorder(root);
+    }
+
+
+
+
+};
+int main()
+{
+    BST<int>tree;
+    tree.insert(100);
+    tree.insert(20);
+    tree.insert(200);
+    tree.insert(10);
+    tree.insert(30);
+    tree.insert(150);
+    tree.insert(300);
+    tree.remove(300);
+    tree.preorder();
+    cout<<endl;
+    tree.inorder();
+    cout<<endl;
+    tree.postorder();
+    cout<<endl;
+    cout<<tree.search(10)<<endl;
+
+
+
+}

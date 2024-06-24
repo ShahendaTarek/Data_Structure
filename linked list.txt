@@ -1,0 +1,370 @@
+#include<bits/stdc++.h>
+using namespace std;
+template<typename T>class LinkedList
+{
+    struct node{
+        T item;
+        node *next;
+
+    };
+    node *head;
+    node *tail;
+    int length;
+public:
+    LinkedList()
+    {
+          head=tail=NULL;
+          length=0;
+    }
+    bool isEmpty()///O(1)
+    {
+        return length==0;
+    }
+    void insertfront(T value)///O(1)
+    {
+        node *newnode=new node();
+        newnode->item=value;
+        if(length==0)
+        {
+            head=newnode;
+            tail=newnode;
+            newnode->next=NULL;
+        }
+        else
+        {
+            newnode->next=head;
+            head=newnode;
+        }
+        length++;
+    }
+    void insertBack(T value)///O(1)
+    {
+        node *newnode=new node();
+        newnode->item=value;
+        if(length==0)
+        {
+            tail=newnode;
+            head=newnode;
+            newnode->next=NULL;
+        }
+        else
+        {
+            tail->next=newnode;
+            newnode->next=NULL;
+            tail=newnode;
+        }
+        length++;
+
+
+    }
+    void insertAtPos(int pos,T value)///O(N)
+    {
+        node*newnode=new node;
+        newnode->item=value;
+        if(pos>length)
+        {
+            tail->next=newnode;
+            newnode->next=NULL;
+            tail=newnode;
+            length++;
+
+        }
+        else if(pos<0)
+        {
+            cout << "Error" << endl;
+        }
+        else if(pos==0)
+        {
+            insertfront(value);
+        }
+        else if(pos==length)
+        {
+            insertBack(value);
+        }
+        else
+        {
+            node*cur=head;
+            for(int i=1;i<pos;i++)
+            {
+                cur=cur->next;
+            }
+            newnode->next=cur->next;
+            cur->next=newnode;
+            length++;
+        }
+    }
+    void popFront() ///O(1)
+    {
+        node*cur=head;
+        if (length == 0)
+        {
+            cout<<"linked list is empty"<<endl;
+        }
+        else if(length==1)
+        {
+            head=tail=NULL;
+            delete cur;
+            length--;
+        }
+        else
+        {
+            head=head->next;
+            delete cur;
+            length--;
+        }
+    }
+    void popBack()///O(N)
+    {
+        if(length==0)
+        {
+            cout<<"Linked List is empty"<<endl;
+        }
+        else if(length==1)
+        {
+            head=tail=NULL;
+            delete head;
+            length--;
+        }
+        else
+        {
+            node*cur=head->next;
+            node*prv=head;
+            while(cur!=tail)
+            {
+                prv=cur;
+                cur=cur->next;
+            }
+            delete cur;
+            prv->next=NULL;
+            tail=prv;
+            length--;
+        }
+    }
+    void eraseByitem(T element)///O(N)
+    {
+        if(length==0)
+        {
+            return;
+        }
+        else
+        {
+            node*cur;
+            node*prv;
+            if(head->item==element)
+            {
+                cur=head;
+                head=head->next;
+                delete cur;
+                length--;
+                if(length==0)
+                {
+                    tail=NULL;
+                }
+            }
+            else
+            {
+                cur=head->next;
+                prv=head;
+                while(cur!=NULL)
+                {
+                    if(cur->item==element)
+                    {
+                        break;
+                    }
+                    prv=cur;
+                    cur=cur->next;
+                }
+                if(cur==NULL)
+                {
+                    cout<<"element not found"<<endl;
+                    return;
+                }
+                else
+                {
+                    prv->next=cur->next;
+                    if(tail==cur)
+                    {
+                        tail=prv;
+                    }
+                }
+                delete cur;
+                length--;
+            }
+
+        }
+    }
+    void eraseAtPos(int pos)///o(N)
+    {
+        if(length==0)
+        {
+            cout<<"Linked List is  Empty"<<endl;
+            return;
+        }
+        else if(length<=pos)
+        {
+            cout<<"Error"<<endl;
+            return;
+        }
+        else
+        {
+            node*cur;
+            node*prv;
+            cur=head->next;
+            prv=head;
+            if(pos==0)
+            {
+                cur=head;
+                head=head->next;
+                delete cur;
+                length--;
+                if(length==0)
+                {
+                    tail=NULL;
+                }
+            }
+            else
+            {
+                for (int i = 1; i < pos; i++)
+                {
+                    prv=cur;
+                    cur=cur->next;
+                }
+                if(cur==NULL)
+                {
+                    cout<<"position not found"<<endl;
+                }
+                else
+                {
+                    if(cur==tail)
+                    {
+                        tail=prv;
+                    }
+                    prv->next=cur->next;
+                    delete cur;
+                    length--;
+                }
+            }
+
+        }
+    }
+    void reverse()
+    {
+        node* cur;
+        node* prev;
+        node* next;
+        prev=NULL;
+        cur=head;
+        next=cur->next;
+        while(next!=NULL)
+        {
+            next=cur->next;
+            cur->next=prev;
+            prev=cur;
+            cur=next;
+        }
+        head=prev;
+
+    }
+    int search(T element)
+    {
+        int pos=0;
+        for(node*i=head;i!=NULL;i=i->next)
+        {
+            if(i->item==element)
+            {
+                return pos;
+            }
+            pos++;
+        }
+        return -1;
+    }
+    int size()
+    {
+        return length;
+    }
+    void clear()
+    {
+        node*next=NULL;
+        node *cur=head;
+        while(cur!=NULL)
+        {
+            next=cur->next;
+            delete cur;
+            cur=next;
+        }
+
+        head=NULL;
+        length=0;
+
+    }
+    int returnPos(T element)
+    {
+        int cnt=0;
+        node*cur=head;
+        while(cur!=NULL)
+        {
+            if(cur->item==element)
+            {
+                return cnt;
+            }
+            cur=cur->next;
+            cnt++;
+        }
+        return -1;
+    }
+    int returnPosBack(int index)
+    {
+        int cnt=length-index;
+        if(cnt<0)
+        {
+            return -1;
+        }
+        node *cur=head;
+        int i=0;
+        while(cur!=NULL)
+        {
+            if(i==cnt)
+            {
+                return cur->item;
+            }
+            i++;
+            cur=cur->next;
+
+        }
+        return -1;
+    }
+    void display()///O(N)
+    {
+        for(node *i=head;i!=NULL;i=i->next)
+        {
+            cout<<i->item<<" ";
+        }
+        cout<<endl;
+    }
+
+
+};
+
+int main()
+{
+    LinkedList<int>ls;
+    ls.insertfront(5);
+    ls.insertBack(4);
+    ls.insertBack(3);
+    ls.insertAtPos(1,2);
+    ls.insertAtPos(6,1);
+    ls.popBack();
+    ls.popFront();
+   // ls.eraseAtPos(1);
+   //ls.eraseByitem(2);
+    ls.reverse();
+    //cout<<ls.search(4)<<endl;
+    cout<<ls.size()<<endl;
+    //ls.clear();
+    cout<<ls.returnPos(5)<<endl;
+    cout<<ls.returnPosBack(3)<<endl;
+   // cout<<ls.size()<<endl;
+    ls.display();
+
+
+}

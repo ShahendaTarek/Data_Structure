@@ -1,0 +1,131 @@
+#include<bits/stdc++.h>
+using namespace std;
+template<typename T> class queuelinkedlist
+{
+    struct node
+    {
+        T item;
+        node*next;
+
+    };
+    node* front;
+    node*back;
+    int length;
+public:
+    queuelinkedlist()
+    {
+        front=back=NULL;
+        length=0;
+
+    }
+    void push(T element)
+    {
+        node *newnode= new node;
+        newnode->item=element;
+        if(length==0)
+        {
+            front=back=newnode;
+            newnode->next=NULL;
+            length++;
+        }
+        else
+        {
+            back->next=newnode;
+            newnode->next=NULL;
+            back=newnode;
+            length++;
+
+        }
+
+    }
+    void pop()
+    {
+        if(length==0)
+        {
+            cout<<"Queue is empty"<<endl;
+        }
+        else if(length==1)
+        {
+            delete front;
+            back=NULL;
+
+        }
+        else
+        {
+            node*cur=front;
+            front=front->next;
+            cur->next=NULL;
+            delete cur;
+        }
+        length--;
+    }
+    bool isEmpty()
+    {
+        return length==0;
+    }
+    T Front()
+    {
+        assert(!isEmpty());
+        return front->item;
+    }
+    T Back()
+    {
+        assert(!isEmpty());
+        return back->item;
+    }
+    void clear()
+    {
+        node*cur;
+        while(front!=NULL)
+        {
+            cur=front;
+            front=front->next;
+            delete cur;
+        }
+        length=0;
+    }
+    void display()
+    {
+        if(!isEmpty())
+        {
+            node*cur=front;
+            while(cur!=NULL)
+            {
+                cout<<cur->item<<" ";
+                cur=cur->next;
+            }
+            cout<<endl;
+        }
+        else
+        {
+            cout<<"Queue is Emtpy"<<endl;
+        }
+
+    }
+    int size()
+    {
+        return length;
+    }
+
+};
+
+
+
+int main()
+{
+    queuelinkedlist<int>q;
+    q.push(1);
+   // q.pop();
+   // q.display();
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    q.push(5);
+    q.pop();
+    //q.clear();
+    cout<<q.Front()<<endl;
+    cout<<q.Back()<<endl;
+    cout<<q.size()<<endl;
+    q.display();
+
+}

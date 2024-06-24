@@ -1,0 +1,209 @@
+#include<bits/stdc++.h>
+using namespace std;
+template<typename T>class DoubleyList
+{
+    struct node
+    {
+        T item;
+        node*prev;
+        node*next;
+    };
+    int length;
+    node*head;
+    node*tail;
+public:
+    DoubleyList()
+    {
+        length=0;
+        head=NULL;
+        tail=NULL;
+    }
+    void pushFront(T element)
+    {
+        node*newnode=new node();
+        newnode->item=element;
+        if(length==0)
+        {
+            head=tail=newnode;
+            newnode->next=NULL;
+            newnode->prev=NULL;
+        }
+        else
+        {
+            newnode->next=head;
+            newnode->prev=NULL;
+            head->prev=newnode;
+            head=newnode;
+        }
+        length++;
+    }
+    void pushBack(T element)
+    {
+        node*newnode=new node();
+        newnode->item=element;
+        if(length==0)
+        {
+            head=tail=newnode;
+            newnode->next=NULL;
+            newnode->prev=NULL;
+        }
+        else
+        {
+            newnode->next=NULL;
+            newnode->prev=tail;
+            tail->next=newnode;
+            tail=newnode;
+        }
+        length++;
+
+    }
+    void insertPos(int pos,T element)
+    {
+        node*newnode=new node();
+        newnode->item=element;
+        if(pos==0)
+        {
+            pushFront(element);
+        }
+        else if(pos>=length)
+        {
+            pushBack(element);
+        }
+        else
+        {
+            node*cur=head;
+            for(int i=1;i<pos;i++)
+            {
+                cur=cur->next;///cur=pos-1;
+            }
+            newnode->next=cur->next;
+            newnode->prev=cur;
+            cur->next=newnode;
+            cur->next->prev=newnode;
+            length++;
+        }
+
+
+    }
+    void popFront()
+    {
+        if(length==0)
+        {
+            cout<<"list is empty"<<endl;
+            return;
+        }
+        if(length==1)
+        {
+            delete head;
+            head=tail=NULL;
+        }
+        else
+        {
+            node*cur=head;
+            head=head->next;
+            head->prev=NULL;
+            delete cur;
+        }
+        length--;
+    }
+    void popBack()
+    {
+        if (length == 0)
+            cout << "Empty List" << endl;
+        else if (length == 1)
+        {
+            delete head;
+            //		delete last;
+            tail = head = NULL;
+            length--;
+        }
+        else
+        {
+            node *current = tail;
+            tail = tail->prev;
+            tail->next = NULL;
+            delete current;
+            length--;
+        }
+
+    }
+    void erase(T element)
+    {
+        if(head->item==element)
+        {
+            popFront();
+        }
+        else
+        {
+            node*current=head->next;
+            while (current != NULL)//current->item!=element
+            {
+                if (current->item == element)
+                    break;
+                current = current->next;
+            }
+
+            if (current == NULL) {
+                cout << "The item is not there\n";
+                return;
+            }
+            else if (current->next == NULL) {
+                popBack();
+                return;
+            }
+
+            else
+            {
+                current->prev->next = current->next;
+                //if (current->next != NULL)
+                current->next->prev = current->prev;
+                delete current;
+                length--;
+            }
+        }
+
+
+    }
+    void display()
+    {
+        node*cur=head;
+        while(cur!=NULL)
+        {
+            cout<<cur->item<<" ";
+            cur=cur->next;
+        }
+        cout<<endl;
+    }
+    void reversedisplay()
+    {
+        node*cur=tail;
+        while(cur!=NULL)
+        {
+            cout<<cur->item<<" ";
+            cur=cur->prev;
+        }
+        cout<<endl;
+    }
+    
+
+
+};
+
+
+
+int main()
+{
+    DoubleyList<int>dls;
+    dls.pushBack(2);
+    dls.pushFront(1);
+    dls.pushBack(3);
+    dls.pushBack(4);
+    dls.insertPos(2,2);
+    dls.erase(4);
+    dls.erase(1);
+    dls.popBack();
+    dls.display();
+    dls.reversedisplay();
+
+
+}

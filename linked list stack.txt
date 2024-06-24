@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+using namespace std;
+template<typename T> class Stack{
+
+    struct node
+    {
+        T item;
+        node*next;
+    };
+    node* top;
+public:
+    Stack()
+    {
+        top=NULL;
+    }
+    void push(T element)
+    {
+        node*newnode=new node();
+        newnode->item=element;
+        newnode->next=top;
+        top=newnode;
+
+    }
+    bool isEmtpy()
+    {
+        return top==NULL;
+    }
+    void pop()
+    {
+        if(isEmtpy())
+        {
+            cout<<"Stack is empty"<<endl;
+            return;
+        }
+        node *cur=top;
+        top=top->next;
+        cur->next=NULL;
+        delete cur;
+
+
+    }
+    T popvalue()
+    {
+        T element;
+        if(isEmtpy())
+        {
+            cout<<"Stack is empty"<<endl;
+            return-1;
+        }
+        else
+        {
+            node*cur=top;
+            element=cur->item;
+            top=top->next;
+            cur->next=NULL;
+            delete cur;
+            return element;
+        }
+    }
+    T Top()
+    {
+        if(!isEmtpy())
+        return top->item;
+        else
+            cout<<"Stack is Emtpy"<<endl;
+    }
+    void display()
+    {
+        node*cur=top;
+        while(cur!=NULL)
+        {
+            cout<<cur->item<<" ";
+            cur=cur->next;
+        }
+        cout<<endl;
+
+    }
+
+
+
+};
+int main()
+{
+    Stack<int>st;
+    st.push(1);
+    st.push(2);
+    st.push(3);
+    st.push(4);
+    st.pop();
+    cout<<st.Top()<<endl;
+    cout<<st.popvalue()<<endl;
+    st.display();
+
+
+}
