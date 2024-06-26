@@ -68,7 +68,7 @@ This project is designed to help me learn and understand various data structure 
 * void deletenode(node*&p).
 * void remove(T element).
 
-# Heap Sortin:-
+# Heap Sorting:-
 * void heapify().
 * void buildheap().
 * void insert(T element).
