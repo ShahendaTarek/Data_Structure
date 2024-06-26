@@ -37,7 +37,7 @@ public:
         }
         cout << endl;
     }
-    void insert(T element)
+    void push_back(T element)
     {
         if (index == maxSize)///O(n)
         {
@@ -75,7 +75,7 @@ public:
         }
         return arr[pos];
     }
-    void insertpos(int pos, T element)///O(n)
+    void insertAtpos(int pos, T element)///O(n)
     {
         if (isfull())
         {
@@ -108,11 +108,11 @@ public:
 
         }
     }
-    void erase()///o(1)
+    void pop_back()///o(1)
     {
         index--;
     }
-    void erasepos(int pos)///O(n)
+    void eraseAtpos(int pos)///O(n)
     {
         if (pos<0 || pos>index)
         {
@@ -1325,9 +1325,9 @@ int main()
     ////////////////////vector///////////////////////////
     Vector<int>v;
     cout << v.size() << endl;
-    v.insert(5);
+    v.push_back(5);
     v.display();
-    v.insert(33);
+    v.push_back(33);
     v.display();
     v.insertpos(1, 4);
     v.display();
@@ -1338,7 +1338,8 @@ int main()
     v.display();
     v.erase();
     v.display();
-    v.insert(3);
+    v.push_back(3);
+    v.pop_back();
     cout << v.search(3) << endl;
     cout << v.isempty() << endl;
     cout << v.isfull() << endl;
